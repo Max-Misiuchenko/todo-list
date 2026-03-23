@@ -36,7 +36,7 @@ export const useTodosStore = defineStore('todos', () => {
   };
 
   const updateTodo = (id: Todo['id'], data: TodoCreate) => {
-    const todo = todos.value.find(({ id }) => id === id);
+    const todo = todos.value.find((t) => t.id === id);
     if (todo) Object.assign(todo, data);
   };
 

@@ -3,7 +3,7 @@ import { VDataTable } from 'vuetify/components';
 
 import { useToast } from '@/composables/useToast';
 import { useTodosStore } from '@/stores/todos';
-import type { Todo, TodoPriority, TodoStatus } from '@/types';
+import type { Todo } from '@/types';
 
 export const useTodoTable = () => {
   const store = useTodosStore();
@@ -20,18 +20,6 @@ export const useTodoTable = () => {
     { title: 'Дата', key: 'createdAt', width: '120px' },
     { title: '', key: 'actions', width: '96px', sortable: false },
   ];
-
-  const statusConfig: Record<TodoStatus, { color: string; label: string }> = {
-    'todo': { color: 'default', label: 'Todo' },
-    'in-progress': { color: 'info', label: 'In Progress' },
-    'done': { color: 'success', label: 'Done' },
-  };
-
-  const priorityConfig: Record<TodoPriority, { color: string; label: string }> = {
-    low: { color: 'success', label: 'Низкий' },
-    medium: { color: 'warning', label: 'Средний' },
-    high: { color: 'error', label: 'Высокий' },
-  };
 
   const dataTableConfig = computed<InstanceType<typeof VDataTable>['$props']>(() => ({
     headers,
@@ -62,9 +50,6 @@ export const useTodoTable = () => {
     store,
     search,
     deletingTodo,
-    headers,
-    statusConfig,
-    priorityConfig,
     dataTableConfig,
     confirmDelete,
     cancelDelete,

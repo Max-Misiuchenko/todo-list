@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { VBtn, VChip, VDataTable, VDialog, VIcon, VTextField, VTooltip } from 'vuetify/components';
+import { VBtn, VDataTable, VIcon, VTextField, VTooltip } from 'vuetify/components';
 
+import TodoDeleteDialog from '@/components/TodoDeleteDialog.vue';
+import TodoPriorityChip from '@/components/TodoPriorityChip.vue';
+import TodoRowActions from '@/components/TodoRowActions.vue';
+import TodoStatusChip from '@/components/TodoStatusChip.vue';
 import { useTodoTable } from '@/components/useTodoTable';
 import type { Todo } from '@/types';
 
@@ -12,8 +16,6 @@ const {
   store,
   search,
   deletingTodo,
-  statusConfig,
-  priorityConfig,
   dataTableConfig,
   confirmDelete,
   cancelDelete,
@@ -41,13 +43,7 @@ const {
     </template>
 
     <template #item.status="{ item: rawItem }">
-      <VChip
-        :color="statusConfig[(rawItem as Todo).status].color"
-        size="small"
-        variant="tonal"
-      >
-        {{ statusConfig[(rawItem as Todo).status].label }}
-      </VChip>
+      <TodoStatusChip :status="(rawItem as Todo).status" />
     </template>
 
     <template #item.title="{ item: rawItem }">
@@ -77,63 +73,20 @@ const {
     </template>
 
     <template #item.priority="{ item: rawItem }">
-      <VChip
-        :color="priorityConfig[(rawItem as Todo).priority].color"
-        size="small"
-        variant="tonal"
-      >
-        {{ priorityConfig[(rawItem as Todo).priority].label }}
-      </VChip>
+      <TodoPriorityChip :priority="(rawItem as Todo).priority" />
     </template>
 
     <template #item.actions="{ item: rawItem }">
-      <VBtn
-        variant="text"
-        density="compact"
-        icon
-        @click="emit('edit', rawItem as Todo)"
-      >
-        <VIcon>mdi-pencil-outline</VIcon>
-      </VBtn>
-
-      <VBtn
-        variant="text"
-        density="compact"
-        icon
-        @click="confirmDelete(rawItem as Todo)"
-      >
-        <VIcon>mdi-delete-outline</VIcon>
-      </VBtn>
+      <TodoRowActions
+        @edit="emit('edit', rawItem as Todo)"
+        @delete="confirmDelete(rawItem as Todo)"
+      />
     </template>
   </VDataTable>
 
-  <VDialog
-    :model-value="!!deletingTodo"
-    max-width="400"
-    @update:model-value="cancelDelete"
-  >
-    <div class="pa-6 bg-surface rounded-lg">
-      <div class="text-h6 mb-2">Удалить задачу?</div>
-      <div class="text-body-2 text-medium-emphasis mb-6">
-        «{{ deletingTodo?.title }}» будет удалена без возможности восстановления.
-      </div>
-
-      <div class="d-flex justify-end gap-2">
-        <VBtn
-          variant="text"
-          @click="cancelDelete"
-        >
-          Отмена
-        </VBtn>
-
-        <VBtn
-          color="error"
-          variant="tonal"
-          @click="applyDelete"
-        >
-          Удалить
-        </VBtn>
-      </div>
-    </div>
-  </VDialog>
+  <TodoDeleteDialog
+    :todo="deletingTodo"
+    @confirm="applyDelete"
+    @cancel="cancelDelete"
+  />
 </template>

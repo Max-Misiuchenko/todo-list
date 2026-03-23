@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { VBtn } from 'vuetify/components';
 
 import TodoCreateAndEditDialog from '@/components/TodoCreateAndEditDialog.vue';
-import TodoFilters from '@/components/TodoFilters.vue';
 import TodoTable from '@/components/TodoTable.vue';
+import TodoToolbar from '@/components/TodoToolbar.vue';
 import type { Todo } from '@/types';
 
 const isDialogOpen = ref(false);
@@ -23,17 +22,7 @@ function openEdit(todo: Todo) {
 
 <template>
   <div>
-    <div class="d-flex align-center justify-space-between flex-wrap gap-3 mb-4">
-      <TodoFilters />
-
-      <VBtn
-        color="primary"
-        prepend-icon="mdi-plus"
-        @click="openCreate"
-      >
-        Добавить задачу
-      </VBtn>
-    </div>
+    <TodoToolbar @create="openCreate" />
 
     <TodoTable @edit="openEdit" />
 
