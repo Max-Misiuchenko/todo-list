@@ -1,11 +1,21 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { VSnackbar } from 'vuetify/components';
+
+import { useToast } from '@/composables/useToast';
+
+const toast = useToast();
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
-</template>
+  <RouterView />
 
-<style scoped></style>
+  <VSnackbar
+    v-model="toast.visible.value"
+    :color="toast.state.value.color"
+    :offset="400"
+    :timeout="3000"
+    location="bottom right"
+  >
+    {{ toast.state.value.message }}
+  </VSnackbar>
+</template>

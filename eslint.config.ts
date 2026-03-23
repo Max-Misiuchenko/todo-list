@@ -133,6 +133,7 @@ export default defineConfigWithVueTs(
       'vue/define-props-declaration': ['error', 'type-based'],
       'vue/component-definition-name-casing': ['error', 'PascalCase'],
       'vue/html-quotes': ['error', 'double', { avoidEscape: false }],
+      'vue/valid-v-slot': ['error', { allowModifiers: true }],
       'vue/no-multi-spaces': 'error',
       'vue/html-closing-bracket-spacing': [
         'error',
